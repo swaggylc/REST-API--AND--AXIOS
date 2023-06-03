@@ -33,7 +33,11 @@ app.get('/students', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     // 返回学生信息列表
     console.log('收到请求');
-    res.send(STU_ARR)
+    res.send({
+        status: 200,
+        msg: '获取成功',
+        data: STU_ARR
+    })
 })
 
 // 定义添加学生的路由
