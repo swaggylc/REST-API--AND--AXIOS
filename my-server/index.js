@@ -12,9 +12,27 @@ app.use(express.urlencoded({ extended: true }))
 // 解析json格式的数据
 app.use(express.json())
 
+app.use((req,res,next)=>{ 
+    // 设置响应头
+    // 若设置指定值，则只能设置一个域名
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    // 设置允许请求的方式
+    res.setHeader('Access-Control-Allow-Methods', '*')
+    // 设置允许携带的请求头
+    res.setHeader('Access-Control-Allow-Headers', '*')
+    // 设置响应头
+    res.setHeader('Content-Type', 'application/json;charset=utf-8')
+    // 放行
+    next()
+})
+
 // 定义学生信息相关的路由
 app.get('/students', (req, res) => {
+    // 设置响应头
+    // 若设置指定值，则只能设置一个域名
+    res.setHeader('Access-Control-Allow-Origin', '*')
     // 返回学生信息列表
+    console.log('收到请求');
     res.send(STU_ARR)
 })
 
