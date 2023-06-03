@@ -26,6 +26,34 @@ app.use((req, res, next) => {
     next()
 })
 
+// 定义一个登陆的路由
+app.post('/login', (req, res) => {
+    // 获取请求参数
+    const { username, password } = req.body
+    // 判断用户名和密码是否正确
+    if (username === 'admin' && password === '123123') {
+        // 返回登陆成功的信息
+        res.send({
+            status: 200,
+            msg: '登陆成功',
+            data: {
+                username,
+                password
+            }
+        })
+    } else {
+        // 返回登陆失败的信息
+        res.send({
+            status: 403,
+            msg: '登陆失败',
+            data: '用户名或密码错误'
+        })
+    }
+})
+
+
+
+
 // 定义学生信息相关的路由
 app.get('/students', (req, res) => {
     // 设置响应头
