@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }))
 // 解析json格式的数据
 app.use(express.json())
 
-app.use((req,res,next)=>{ 
+app.use((req, res, next) => {
     // 设置响应头
     // 若设置指定值，则只能设置一个域名
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -39,6 +39,28 @@ app.get('/students', (req, res) => {
         data: STU_ARR
     })
 })
+
+// 定义获取指定学生信息的路由
+// app.post('/students/:id', (req, res) => {
+//     // 获取要获取的学生id
+//     if(req.params.id==null){
+//         res.send({
+//             status: 403,
+//             msg: '获取失败',
+//             data: null
+//         })
+//     }
+//     const id = req.params.id
+//     // 根据id查找学生信息
+//     const stu = STU_ARR.find(item => item.id == id)
+//     // 返回学生信息
+//     res.send({
+//         status: 200,
+//         msg: '获取成功',
+//         data: stu
+//     })
+// })
+
 
 // 定义添加学生的路由
 app.post('/students', (req, res) => {

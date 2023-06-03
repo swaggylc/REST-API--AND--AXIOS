@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        td,
+        th {
+            font-size: 20px;
+            text-align: center;
+            border: 1px solid #000;
+        }
+
+        caption {
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>AJAX测试</h1>
+    <hr>
+    <button id="btn">点我发送请求(get请求)</button>
+    <hr>
+    <button id="btn2">post请求</button>
+
+    <div id="root">
+
+    </div>
+
+
+
+
+
+    <script>
+        const btn = document.getElementById('btn')
+        const btn2 = document.getElementById('btn2')
+        const root = document.getElementById('root')
+
+        btn.onclick = () => {
+            /**
+             * fetch
+             *      -fetch是xhr的升级版，采用的是promise的方式处理请求
+             *      -作用和AJAX一样，都是用来发送请求的，但使用起来更加友好
+             *      -fetch是原生js支持的一种AJAX请求的方式
+             * 
+             * 
+            */
+
+            fetch('http://localhost:3000/students')
+                .then((res) => {
+                    if (res.status === 200) {
+                        // res.json()可以读取josn格式的数据
+                        // console.log(res.json());
+                        return res.json()
+                    } else {
+                        console.log('请求失败');
+                    }
+
+                }).then((res) => {
+                    // 获取到数据后，将数据渲染到页面上
+
+                })
+                .catch((err) => {
+                    console.log("出现了错误" + err);
+                })
+        }
+
+
+        btn2.onclick = () => {
+            fetch('http://localhost:3000/students', {
+                method: 'POST',
+                headers: {
+                    // 通过请求头来指定数据的类型
+                    'Content-Type': 'application/json'
+                },
+                // 通过body去发送数据时，必须通过设置请求头来指定数据的类型
+                body: JSON.stringify({
+                    id: 11,
+                    name: '张三',
+                    age: 18
+                })
+            })
+        }
+
+    </script>
+</body>
+
+</html>
