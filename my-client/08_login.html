@@ -74,9 +74,21 @@
       const root = document.querySelector("#root");
       const divdata = document.querySelector("#divdata");
 
-      // 定义登陆的函数
+      // 定义获得学生信息的函数
+      // 当我们访问的是需要权限额api时，必须在请求中附加权限的信息
+      // token一般通过请求头来发送给服务器
       function loaddata() {
-        fetch("http://localhost:3000/students")
+        // 获取token
+        const token = localStorage.getItem("token");
+
+
+        fetch("http://localhost:3000/students",{
+          headers:{
+            // 在请求头中附加token
+            // Authorization:Bearer token
+            Authorization:"Bearer "+token
+          }
+        })
           .then((res) => {
             if (res.status === 200) {
               // res.json()可以读取josn格式的数据
@@ -133,8 +145,8 @@
 
       // 判断用户是否已经登陆过
       if (
-        localStorage.getItem("username") &&
-        localStorage.getItem("password")
+        localStorage.getItem("token") &&
+        localStorage.getItem("username")
       ) {
         root.innerHTML = `
             <h1>欢迎${localStorage.getItem("username")}登陆</h1>
@@ -174,8 +186,12 @@
                                     本地存储是指将用户的信息存储到浏览器中，当页面关闭时，本地存储中的数据不会被清除
                         */
                 // 登陆成功后，将用户的信息存储到本地存储中
+                // localStorage.setItem("username", res.data.username);
+                // localStorage.setItem("password", res.data.password);
+
+                localStorage.setItem("token", res.data.token);
                 localStorage.setItem("username", res.data.username);
-                localStorage.setItem("password", res.data.password);
+
 
                 root.innerHTML = `
                         <h1>欢迎${res.data.username}登陆</h1>

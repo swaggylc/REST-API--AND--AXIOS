@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+// 引入jwt
+const jwt = require("jsonwebtoken");
 
 const STU_ARR = [
   { id: 1, name: "张三", age: 18 },
@@ -32,13 +34,18 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
   // 判断用户名和密码是否正确
   if (username === "admin" && password === "123123") {
+    // 登陆成功生成token
+    const token = jwt.sign({ username, password }, "hello", {
+      expiresIn: "1d",
+    });
+
     // 返回登陆成功的信息
     res.send({
       status: 200,
       msg: "登陆成功",
       data: {
-        username,
-        password,
+        token,
+        username: "admin",
       },
     });
   } else {
@@ -58,11 +65,30 @@ app.get("/students", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   // 返回学生信息列表
   // console.log('收到请求');
-  res.send({
-    status: 200,
-    msg: "获取成功",
-    data: STU_ARR,
-  });
+  // 这个路由必须在用户登陆后才能访问
+  // 检查用户是否登陆
+  try {
+    // 读取请求头中的token
+    const token = req.get("Authorization").split(" ")[1];
+    // console.log(token);
+    // 验证token(解密)
+
+    const result = jwt.verify(token, "hello");
+    // console.log(result);
+    // 解密成功，token有效
+    res.send({
+      status: 200,
+      msg: "获取成功",
+      data: STU_ARR,
+    });
+  } catch (error) {
+    // 解密失败，token无效
+    res.send({
+      status: 403,
+      msg: "获取失败",
+      data: "token无效",
+    });
+  }
 });
 
 // 定义获取指定学生信息的路由
