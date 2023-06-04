@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地存储</title>
+</head>
+<body>
+    <h1>本地存储演示</h1>
+    <button id="btn1">存</button>
+    <button id="btn2">取</button>
+    <hr>
+    <script>
+        const btn1=document.querySelector('#btn1')
+        const btn2=document.querySelector('#btn2')
+        btn1.onclick=()=>{
+            // console.log(sessionStorage);
+            // setItem(key,value)用来存储数据
+            // getItem(key)用来获取数据
+            // removeItem(key)用来删除数据
+            // clear()用来清空所有数据
+            sessionStorage.setItem('name','张三')
+        }
+
+        btn2.onclick=()=>{
+            // console.log(localStorage);
+            // getItem(key)用来获取数据
+            const name=sessionStorage.getItem('name')
+            console.log(name);
+        }
+
+
+
+
+
+    </script>
+
+</body>
+</html>
